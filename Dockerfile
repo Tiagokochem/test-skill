@@ -27,12 +27,12 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Create necessary directories
 RUN mkdir -p /var/www/html/bootstrap/cache \
-    /var/www/html/storage/framework/cache \
+    /var/www/html/storage/framework/cache/data \
     /var/www/html/storage/framework/sessions \
     /var/www/html/storage/framework/views \
     /var/www/html/storage/logs
 
-# Set permissions
+# Set permissions (entrypoint will fix on startup, but set basic ones here)
 RUN chown -R www-data:www-data /var/www/html && \
     chmod -R 775 /var/www/html/bootstrap/cache /var/www/html/storage
 
