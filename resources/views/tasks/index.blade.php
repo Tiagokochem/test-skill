@@ -8,13 +8,13 @@
                 <div class="row align-items-center">
                     <div class="col-md-6">
                         <h4 class="mb-0">
-                            <i class="bi bi-list-task"></i> Tarefas
+                            <i class="bi bi-list-task"></i> Tasks
                         </h4>
                     </div>
                     <div class="col-md-6 text-end">
                         <div class="d-inline-block me-3">
                             <select id="projectFilter" class="form-select form-select-sm" style="width: auto; display: inline-block;">
-                                <option value="">Todos os Projetos</option>
+                                <option value="">All Projects</option>
                                 @foreach($projects as $project)
                                     <option value="{{ $project->id }}" {{ $projectId == $project->id ? 'selected' : '' }}>
                                         {{ $project->name }}
@@ -23,10 +23,10 @@
                             </select>
                         </div>
                         <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#projectModal">
-                            <i class="bi bi-folder-plus"></i> Novo Projeto
+                            <i class="bi bi-folder-plus"></i> New Project
                         </button>
                         <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#taskModal" data-task-id="">
-                            <i class="bi bi-plus-circle"></i> Nova Tarefa
+                            <i class="bi bi-plus-circle"></i> New Task
                         </button>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                                 </div>
                                 <div>
                                     <small class="text-muted me-3">
-                                        Criado: {{ $task->created_at->format('d/m/Y H:i') }}
+                                        Created: {{ $task->created_at->format('d/m/Y H:i') }}
                                     </small>
                                     <button class="btn btn-sm btn-outline-primary edit-task" data-task-id="{{ $task->id }}" data-task-name="{{ $task->name }}" data-project-id="{{ $task->project_id }}">
                                         <i class="bi bi-pencil"></i>
@@ -59,7 +59,7 @@
                         </div>
                     @empty
                         <div class="alert alert-info">
-                            <i class="bi bi-info-circle"></i> Nenhuma tarefa encontrada. Crie uma nova tarefa para começar!
+                            <i class="bi bi-info-circle"></i> No tasks found. Create a new task to get started!
                         </div>
                     @endforelse
                 </div>
@@ -68,25 +68,25 @@
     </div>
 </div>
 
-<!-- Modal para Criar/Editar Tarefa -->
+<!-- Modal to Create/Edit Task -->
 <div class="modal fade" id="taskModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="taskModalTitle">Nova Tarefa</h5>
+                <h5 class="modal-title" id="taskModalTitle">New Task</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form id="taskForm">
                 <div class="modal-body">
                     <input type="hidden" id="taskId" name="task_id">
                     <div class="mb-3">
-                        <label for="taskName" class="form-label">Nome da Tarefa</label>
+                        <label for="taskName" class="form-label">Task Name</label>
                         <input type="text" class="form-control" id="taskName" name="name" required>
                     </div>
                     <div class="mb-3">
-                        <label for="taskProject" class="form-label">Projeto</label>
+                        <label for="taskProject" class="form-label">Project</label>
                         <select class="form-select" id="taskProject" name="project_id">
-                            <option value="">Sem Projeto</option>
+                            <option value="">No Project</option>
                             @foreach($projects as $project)
                                 <option value="{{ $project->id }}">{{ $project->name }}</option>
                             @endforeach
@@ -94,32 +94,32 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<!-- Modal para Criar Projeto -->
+<!-- Modal to Create Project -->
 <div class="modal fade" id="projectModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Novo Projeto</h5>
+                <h5 class="modal-title">New Project</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form id="projectForm">
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="projectName" class="form-label">Nome do Projeto</label>
+                        <label for="projectName" class="form-label">Project Name</label>
                         <input type="text" class="form-control" id="projectName" name="name" required>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Criar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create</button>
                 </div>
             </form>
         </div>
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Erro ao reordenar tarefas');
+                    alert('Error reordering tasks');
                 });
             }
         });
@@ -171,22 +171,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const taskForm = document.getElementById('taskForm');
     const taskModalTitle = document.getElementById('taskModalTitle');
     
-    // Abrir modal para criar nova tarefa
+    // Open modal to create new task
     document.querySelector('[data-bs-target="#taskModal"]').addEventListener('click', function() {
-        taskModalTitle.textContent = 'Nova Tarefa';
+        taskModalTitle.textContent = 'New Task';
         taskForm.reset();
         document.getElementById('taskId').value = '';
         document.getElementById('taskProject').value = projectId || '';
     });
     
-    // Abrir modal para editar tarefa
+    // Open modal to edit task
     document.querySelectorAll('.edit-task').forEach(button => {
         button.addEventListener('click', function() {
             const taskId = this.dataset.taskId;
             const taskName = this.dataset.taskName;
             const taskProjectId = this.dataset.projectId || '';
             
-            taskModalTitle.textContent = 'Editar Tarefa';
+            taskModalTitle.textContent = 'Edit Task';
             document.getElementById('taskId').value = taskId;
             document.getElementById('taskName').value = taskName;
             document.getElementById('taskProject').value = taskProjectId;
@@ -222,14 +222,14 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Erro ao salvar tarefa');
+            alert('Error saving task');
         });
     });
     
-    // Deletar tarefa
+    // Delete task
     document.querySelectorAll('.delete-task').forEach(button => {
         button.addEventListener('click', function() {
-            if (!confirm('Tem certeza que deseja deletar esta tarefa?')) {
+            if (!confirm('Are you sure you want to delete this task?')) {
                 return;
             }
             
@@ -247,12 +247,12 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Erro ao deletar tarefa');
+                alert('Error deleting task');
             });
         });
     });
     
-    // Criar projeto
+    // Create project
     const projectForm = document.getElementById('projectForm');
     projectForm.addEventListener('submit', function(e) {
         e.preventDefault();
@@ -276,11 +276,11 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Erro ao criar projeto');
+            alert('Error creating project');
         });
     });
     
-    // Filtro de projeto
+    // Project filter
     const projectFilter = document.getElementById('projectFilter');
     if (projectFilter) {
         projectFilter.addEventListener('change', function() {
